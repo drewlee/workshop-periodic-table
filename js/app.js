@@ -3,18 +3,18 @@ import Speller from './speller.js';
 if (/complete|interactive|loaded/.test(document.readyState)) {
   ready();
 } else {
-  document.addEventListener("DOMContentLoaded", ready);
+  document.addEventListener('DOMContentLoaded', ready);
 }
 
 // ****************************
 
 function ready() {
-  const enterWordEl = document.getElementById("enter-word");
-  const spellBtn = document.getElementById("spell-btn");
-  const wordSpellingEl = document.getElementById("word-spelling");
+  const enterWordEl = document.getElementById('enter-word');
+  const spellBtn = document.getElementById('spell-btn');
+  const wordSpellingEl = document.getElementById('word-spelling');
 
-  enterWordEl.addEventListener("keydown", onKeydown, false);
-  spellBtn.addEventListener("click", checkWord, false);
+  enterWordEl.addEventListener('keydown', onKeydown, false);
+  spellBtn.addEventListener('click', checkWord, false);
 
   // ********************************
 
@@ -35,6 +35,7 @@ function ready() {
     }
 
     // attempt to spell word
+    /** @type {string[]} */
     const symbols = Speller.check(inputWord);
 
     // was a valid spelling found?
@@ -47,9 +48,9 @@ function ready() {
   }
 
   function spellWord(symbols) {
-    wordSpellingEl.innerHTML = "";
+    wordSpellingEl.innerHTML = '';
 
-    for (let symbol of symbols) {
+    for (const symbol of symbols) {
       let elementEntry = Speller.lookup(symbol);
       let elementDiv = document.createElement('div');
       elementDiv.className = 'element';
