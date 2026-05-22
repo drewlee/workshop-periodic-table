@@ -85,7 +85,7 @@ function ready() {
 //   "lady","lifespan","lips","lubrication","lucky","mock","mockery","more","motion","mouse","neon",
 //   "nits","notification","nun","osmosis","ostentatious","pancreas","papyrus","patcher","patchier",
 //   "phone","physics","pirate","play","player","poacher","poison","police","polish","posh","pounds",
-//   "preparer","pretender","psychic","puffer","raccoon","rage","recluse","rescues","researh",
+//   "preparer","pretender","psychic","puffer","raccoon","rage","recluse","rescues","research",
 //   "resin","responsibilities","retina","reunite","reverse","rhubarb","rub","ruby","ruin","run",
 //   "rune","rush","sack","sag","salvation","sarcasm","sassy","satin","scallion","scandal","scares",
 //   "scotch","septic","sickness","siphon","skunk","sniper","snowy","soccer","sociopath","spam",
