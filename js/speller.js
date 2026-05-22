@@ -9,7 +9,7 @@
 const elements = await loadPeriodicTable();
 
 /** @type {Map<string, Element>} */
-const elementMap = populateElementMap();
+const symbols = populateSymbols();
 
 /** @type {() => Promise<Element[]>} */
 async function loadPeriodicTable() {
@@ -17,17 +17,17 @@ async function loadPeriodicTable() {
 }
 
 /** @type {() => Map<string, Element>} */
-function populateElementMap() {
-  const elementMap = new Map();
+function populateSymbols() {
+  const symbols = new Map();
 
   for (const element of elements) {
-    elementMap.set(element.symbol.toLowerCase(), element);
+    symbols.set(element.symbol.toLowerCase(), element);
   }
 
-  return elementMap;
+  return symbols;
 }
 
-/** @type {(index: number, word: string, path: string[]) => string[] | null} */
+/** @type {(index: number, word: string, path: string[]) => string[]} */
 function findSymbols(index, word, path) {
   // Base case: index is out of bounds
   if (index >= word.length) {
@@ -35,47 +35,50 @@ function findSymbols(index, word, path) {
   }
 
   const currLetter = word[index];
-  const hasCurrLetter = elementMap.has(currLetter);
+  const hasCurrLetter = symbols.has(currLetter);
   const letterPair = index < word.length - 1
     ? currLetter + word[index + 1]
-    : null;
-  const hasLetterPair = letterPair !== null && elementMap.has(letterPair);
+    : '';
+  const hasLetterPair = letterPair.length && symbols.has(letterPair);
 
   // Exit as no current matches found
   if (!hasCurrLetter && !hasLetterPair) {
-    return null;
+    return [];
   }
 
-  /** @type {string[] | null} */
-  let singleRes = null;
-
-  /** @type {string[] | null} */
-  let pairRes = null;
-
-  if (hasCurrLetter) {
-    path.push(currLetter);
-    singleRes = findSymbols(index + 1, word, path);
-    path.pop();
-  }
-
+  // Match letter pairs to symbols
   if (hasLetterPair) {
     path.push(letterPair);
-    pairRes = findSymbols(index + 2, word, path);
+    const result = findSymbols(index + 2, word, path);
     path.pop();
+
+    if (result.length) {
+      return result;
+    }
   }
 
-  return singleRes || pairRes;
+  // Match single letters to symbols
+  if (hasCurrLetter) {
+    path.push(currLetter);
+    const result = findSymbols(index + 1, word, path);
+    path.pop();
+
+    if (result.length) {
+      return result;
+    }
+  }
+
+  return [];
 }
 
 /** @type {(inputWord: string) => string[]} */
 function check(inputWord) {
-  const result = findSymbols(0, inputWord, []);
-  return result !== null ? result : [];
+  return findSymbols(0, inputWord, []);
 }
 
 /** @type {(elementSymbol: string) => Element} */
 function lookup(elementSymbol) {
-  return elementMap.get(elementSymbol);
+  return symbols.get(elementSymbol);
 }
 
 export default {
